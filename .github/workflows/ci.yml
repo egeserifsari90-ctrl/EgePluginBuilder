@@ -20,7 +20,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
 
       - name: Check required files
         run: |
@@ -30,6 +30,7 @@ jobs:
           test -f js/builder.js
           test -f js/templates.js
           test -f js/zip.js
+          test -f tests/smoke-test.cjs
 
       - name: Syntax-check JavaScript
         run: |
