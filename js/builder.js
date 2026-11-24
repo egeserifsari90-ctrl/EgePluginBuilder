@@ -6,7 +6,7 @@
     const errors = [];
     if (!String(input.name || '').trim()) errors.push('Proje adı gerekli.');
     if (!safeId(input.id)) errors.push('Geçerli bir eklenti kimliği gerekli.');
-    if (!['basic','popup','content','chrome','webExtension'].includes(input.template)) errors.push('Bilinmeyen şablon.');
+    if (!['basic','popup','content','chrome','webExtension','capcutKit'].includes(input.template)) errors.push('Bilinmeyen şablon.');
     if (!['MIT','Apache-2.0','UNLICENSED'].includes(input.license)) errors.push('Geçersiz lisans seçimi.');
     return { valid: errors.length === 0, errors, id: safeId(input.id) };
   }
@@ -17,7 +17,7 @@
     const maker = global.EgeTemplates[data.template];
     if (typeof maker !== 'function') throw new Error('Şablon yüklenemedi.');
     const files = maker(data);
-    if (data.includeManifest && !files['manifest.json']) {
+    if (data.includeManifest && data.template !== 'capcutKit' && !files['manifest.json']) {
       files['manifest.json'] = JSON.stringify({
         id: data.id,
         name: data.name,
