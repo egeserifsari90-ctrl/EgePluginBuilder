@@ -1,0 +1,1 @@
+// Eklenti şablonları için ayrılmıştır.
