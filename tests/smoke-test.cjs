@@ -20,12 +20,18 @@ const base = {
   includeManifest: true
 };
 
-for (const template of ['basic', 'popup', 'content', 'chrome', 'webExtension']) {
+for (const template of ['basic', 'popup', 'content', 'chrome', 'webExtension', 'capcutKit']) {
   const files = builder.build({ ...base, template });
   assert.ok(Object.keys(files).length > 0, template + ' outputs files');
   assert.ok(files['README.md'], template + ' includes README');
   assert.ok(files['LICENSE'], template + ' includes MIT license');
 }
+
+const capcutFiles = builder.build({ ...base, template: 'capcutKit' });
+assert.ok(capcutFiles['edit-plan/timeline.csv']);
+assert.ok(capcutFiles['edit-plan/captions.srt']);
+assert.ok(capcutFiles['edit-plan/export-checklist.md']);
+assert.equal(capcutFiles['manifest.json'], undefined);
 
 const chromeFiles = builder.build({ ...base, template: 'chrome' });
 const chromeManifest = JSON.parse(chromeFiles['manifest.json']);
