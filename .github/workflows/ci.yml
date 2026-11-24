@@ -1,0 +1,49 @@
+name: EgePluginBuilder CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Check required files
+        run: |
+          test -f index.html
+          test -f css/style.css
+          test -f js/app.js
+          test -f js/builder.js
+          test -f js/templates.js
+          test -f js/zip.js
+
+      - name: Syntax-check JavaScript
+        run: |
+          node --check js/app.js
+          node --check js/builder.js
+          node --check js/templates.js
+          node --check js/zip.js
+
+      - name: Verify script references
+        run: |
+          grep -q 'js/templates.js' index.html
+          grep -q 'js/builder.js' index.html
+          grep -q 'js/zip.js' index.html
+          grep -q 'js/app.js' index.html
+
+      - name: Generator smoke tests
+        run: node tests/smoke-test.cjs
