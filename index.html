@@ -10,13 +10,13 @@
 <body>
   <header class="topbar">
     <a class="brand" href="./"><span class="brand-mark">EP</span><span>Ege <b>Plugin Builder</b><small>Basit eklenti proje oluşturucu</small></span></a>
-    <span class="version">v1.1.1 · Test düzeltmesi</span>
+    <span class="version">v1.2.0 · CapCut düzenleme paketi</span>
   </header>
   <main class="layout">
     <section class="intro">
       <span class="eyebrow">KOD ÜRETİCİ</span>
       <h1>Eklentinin temelini<br><em>kendin oluştur.</em></h1>
-      <p>Proje bilgilerini gir, başlangıç dosyalarını hazırla ve ZIP olarak indir. Oluşturulan dosyalar genel web eklentisi başlangıç projesidir; belirli bir platforma entegrasyon ayrıca yapılmalıdır.</p>
+      <p>Proje bilgilerini gir, eklenti başlangıç dosyaları veya CapCut için düzenleme yardımcı paketi oluştur ve ZIP olarak indir.</p>
     </section>
     <section class="panel">
       <div class="panel-head"><div><span class="step">01</span><h2>Proje ayarları</h2></div><span class="hint">Zorunlu alanları doldur</span></div>
@@ -25,7 +25,7 @@
         <label>Eklenti kimliği<input id="pluginId" maxlength="50" value="ege-eklentim" required><small>Boşluk kullanma; küçük harf ve tire önerilir.</small></label>
         <label>Açıklama<textarea id="description" maxlength="180" rows="3">Ege Plugin Builder ile oluşturuldu.</textarea></label>
         <div class="grid">
-          <label>Şablon<select id="template"><option value="basic">Temel web projesi</option><option value="popup">Popup arayüzü</option><option value="content">Sayfa içi içerik betiği</option><option value="chrome">Chrome uzantısı (Manifest V3)</option><option value="webExtension">Genel WebExtension (Manifest V2)</option></select></label>
+          <label>Şablon<select id="template"><option value="basic">Temel web projesi</option><option value="popup">Popup arayüzü</option><option value="content">Sayfa içi içerik betiği</option><option value="chrome">Chrome uzantısı (Manifest V3)</option><option value="webExtension">Genel WebExtension (Manifest V2)</option><option value="capcutKit">CapCut düzenleme yardımcı paketi</option></select></label>
           <label>Lisans<select id="license"><option value="MIT">MIT</option><option value="Apache-2.0">Apache-2.0 (bilgi notu)</option><option value="UNLICENSED">Belirtilmedi</option></select></label>
         </div>
         <label class="check"><input type="checkbox" id="includeReadme" checked> README.md ekle</label>
@@ -40,7 +40,7 @@
       <div class="actions"><button id="downloadBtn" class="primary" disabled>ZIP olarak indir</button><button id="previewBtn" class="secondary" disabled>Önizlemeyi göster</button></div>
       <pre id="preview" class="preview" hidden></pre>
     </section>
-    <section class="notice"><b>Önemli:</b> Araç dosyaları tarayıcında üretir. GitHub'a otomatik yükleme yapmaz. manifest.json genel metadata dosyasıdır; Chrome, Firefox veya CapCut'ın resmî eklenti manifesti değildir.</section>
+    <section class="notice"><b>Önemli:</b> Araç dosyaları tarayıcında üretir. GitHub'a otomatik yükleme yapmaz. manifest.json genel metadata dosyasıdır; Chrome veya CapCut'ın resmî eklenti manifesti değildir. CapCut paketi zaman çizelgesi CSV'si, SRT altyazı taslağı ve kontrol listesi üretir; CapCut'ı doğrudan kontrol etmez.</section>
   </main>
   <footer>© <span id="year"></span> EgePluginBuilder · HTML / CSS / JavaScript</footer>
   <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
