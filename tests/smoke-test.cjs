@@ -2,66 +2,53 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
 
-const context = {
-  console,
-  window: {},
-  Date,
-  JSON,
-  String,
-  Object,
-  Array,
-};
+const context = { console, window: {}, Date, JSON, String, Object, Array };
 vm.createContext(context);
-
 for (const file of ['js/templates.js', 'js/builder.js']) {
   vm.runInContext(fs.readFileSync(file, 'utf8'), context, { filename: file });
 }
-
 const builder = context.window.EgeBuilder;
-const templates = context.window.EgeTemplates;
-assert.ok(builder, 'EgeBuilder global is defined');
-assert.ok(templates, 'EgeTemplates global is defined');
+assert.ok(builder);
+assert.ok(context.window.EgeTemplates);
 
-const defaults = {
-  name: 'Örnek Eklenti',
+const base = {
+  name: 'Ornek Eklenti',
   id: 'ornek-eklenti',
-  description: 'Smoke test açıklaması',
+  description: 'Test aciklamasi',
   license: 'MIT',
   includeReadme: true,
-  includeManifest: true,
+  includeManifest: true
 };
 
 for (const template of ['basic', 'popup', 'content', 'chrome', 'webExtension']) {
-  const files = builder.build({ ...defaults, template });
-  assert.ok(files && typeof files === 'object', template + ' returns files');
-  assert.ok(Object.keys(files).length > 0, template + ' has files');
-  assert.ok(files['manifest.json'], template + ' has manifest');
-  assert.ok(files['LICENSE'], template + ' has MIT license');
-  assert.ok(files['README.md'], template + ' has README');
+  const files = builder.build({ ...base, template });
+  assert.ok(Object.keys(files).length > 0, template + ' outputs files');
+  assert.ok(files['README.md'], template + ' includes README');
+  assert.ok(files['LICENSE'], template + ' includes MIT license');
 }
 
-const chrome = JSON.parse(builder.build({ ...defaults, template: 'chrome' })['manifest.json']);
-assert.equal(chrome.manifest_version, 3, 'Chrome template emits Manifest V3');
-assert.equal(chrome.action.default_popup, 'popup.html');
+const chromeFiles = builder.build({ ...base, template: 'chrome' });
+const chromeManifest = JSON.parse(chromeFiles['manifest.json']);
+assert.equal(chromeManifest.manifest_version, 3);
+assert.equal(chromeManifest.action.default_popup, 'popup.html');
+assert.ok(chromeFiles['popup.html']);
+assert.ok(chromeFiles['popup.js']);
 
-const webExt = JSON.parse(builder.build({ ...defaults, template: 'webExtension' })['manifest.json']);
-assert.equal(webExt.manifest_version, 2, 'generic WebExtension template emits Manifest V2');
+const webFiles = builder.build({ ...base, template: 'webExtension' });
+const webManifest = JSON.parse(webFiles['manifest.json']);
+assert.equal(webManifest.manifest_version, 2);
+assert.equal(webManifest.browser_action.default_popup, 'popup.html');
 
-const popup = builder.build({ ...defaults, template: 'popup' });
-assert.ok(popup['popup.html']);
-assert.ok(popup['popup.js']);
-assert.ok(popup['popup.css']);
+const popupFiles = builder.build({ ...base, template: 'popup' });
+assert.ok(popupFiles['popup.html'] && popupFiles['popup.js'] && popupFiles['popup.css']);
 
-const content = builder.build({ ...defaults, template: 'content' });
-assert.ok(content['content.js']);
+const contentFiles = builder.build({ ...base, template: 'content' });
+assert.ok(contentFiles['content.js']);
+assert.equal(contentFiles['index.html'], undefined);
 
-const bad = builder.validate({ ...defaults, id: ' !!! ' });
-assert.equal(bad.valid, false, 'invalid id is rejected');
+assert.equal(builder.validate({ ...base, id: ' !!! ' }).valid, false);
+assert.equal(builder.safeId('Ege Şerif 2026'), 'ege-serif-2026');
+const noLicense = builder.build({ ...base, template: 'basic', license: 'UNLICENSED' });
+assert.equal(noLicense['LICENSE'], undefined);
 
-const unicodeId = builder.safeId('Ege Şerif 2026');
-assert.equal(unicodeId, 'ege-serif-2026', 'unicode id is normalized');
-
-const noLicense = builder.build({ ...defaults, template: 'basic', license: 'UNLICENSED' });
-assert.equal(noLicense['LICENSE'], undefined, 'unlicensed project omits LICENSE');
-
-console.log('PASS: all generator smoke tests passed.');
+console.log('PASS: template, manifest, validation and license tests passed.');
