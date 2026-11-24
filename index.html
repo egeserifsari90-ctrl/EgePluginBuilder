@@ -10,37 +10,37 @@
 <body>
   <header class="topbar">
     <a class="brand" href="./"><span class="brand-mark">EP</span><span>Ege <b>Plugin Builder</b><small>Basit eklenti proje oluşturucu</small></span></a>
-    <span class="version">v1.1 · Beta</span>
+    <span class="version">v1.1.1 · Test düzeltmesi</span>
   </header>
   <main class="layout">
     <section class="intro">
       <span class="eyebrow">KOD ÜRETİCİ</span>
       <h1>Eklentinin temelini<br><em>kendin oluştur.</em></h1>
-      <p>Proje bilgilerini gir, başlangıç dosyalarını hazırla ve ZIP olarak indir. Üretilen dosyalar genel web eklentisi/başlangıç projesi içindir; belirli bir platformda doğrudan çalışması ayrıca entegrasyon gerektirebilir.</p>
+      <p>Proje bilgilerini gir, başlangıç dosyalarını hazırla ve ZIP olarak indir. Oluşturulan dosyalar genel web eklentisi başlangıç projesidir; belirli bir platforma entegrasyon ayrıca yapılmalıdır.</p>
     </section>
     <section class="panel">
       <div class="panel-head"><div><span class="step">01</span><h2>Proje ayarları</h2></div><span class="hint">Zorunlu alanları doldur</span></div>
       <form id="builderForm">
         <label>Proje adı<input id="projectName" maxlength="40" value="EgeEklentim" required></label>
-        <label>Eklenti kimliği <input id="pluginId" maxlength="50" value="ege-eklentim" required><small>Boşluk kullanma; küçük harf ve tire önerilir.</small></label>
+        <label>Eklenti kimliği<input id="pluginId" maxlength="50" value="ege-eklentim" required><small>Boşluk kullanma; küçük harf ve tire önerilir.</small></label>
         <label>Açıklama<textarea id="description" maxlength="180" rows="3">Ege Plugin Builder ile oluşturuldu.</textarea></label>
         <div class="grid">
-          <label>Şablon<select id="template"><option value="basic">Temel web eklentisi</option><option value="popup">Popup arayüzü</option><option value="content">Sayfa içi içerik betiği</option></select></label>
-          <label>Lisans<select id="license"><option value="MIT">MIT</option><option value="Apache-2.0">Apache-2.0</option><option value="UNLICENSED">Belirtilmedi</option></select></label>
+          <label>Şablon<select id="template"><option value="basic">Temel web projesi</option><option value="popup">Popup arayüzü</option><option value="content">Sayfa içi içerik betiği</option></select></label>
+          <label>Lisans<select id="license"><option value="MIT">MIT</option><option value="Apache-2.0">Apache-2.0 (bilgi notu)</option><option value="UNLICENSED">Belirtilmedi</option></select></label>
         </div>
         <label class="check"><input type="checkbox" id="includeReadme" checked> README.md ekle</label>
-        <label class="check"><input type="checkbox" id="includeManifest" checked> manifest.json ekle (genel proje metadata dosyası)</label>
+        <label class="check"><input type="checkbox" id="includeManifest" checked> Genel proje manifest.json ekle</label>
         <div class="actions"><button class="primary" type="submit">Dosyaları oluştur</button><button class="secondary" type="button" id="resetBtn">Sıfırla</button></div>
       </form>
       <div id="status" class="status" role="status" aria-live="polite">Hazır. Proje bilgilerini düzenleyebilirsin.</div>
     </section>
-    <section class="panel output" id="outputPanel">
+    <section class="panel output">
       <div class="panel-head"><div><span class="step">02</span><h2>Üretilen dosyalar</h2></div><span class="hint" id="fileCount">Henüz oluşturulmadı</span></div>
       <div id="fileList" class="file-list"><div class="empty">Henüz dosya yok. Önce yukarıdaki formu doldur.</div></div>
       <div class="actions"><button id="downloadBtn" class="primary" disabled>ZIP olarak indir</button><button id="previewBtn" class="secondary" disabled>Önizlemeyi göster</button></div>
       <pre id="preview" class="preview" hidden></pre>
     </section>
-    <section class="notice"><b>Önemli:</b> Bu araç dosyaları tarayıcında yerel olarak üretir. GitHub'a otomatik yükleme yapmaz ve CapCut gibi kapalı platformların resmi API/OAuth erişimini sağlamaz. Gerçek bir platform eklentisi için o platformun resmi manifesti, API'si ve izinleri gerekir.</section>
+    <section class="notice"><b>Önemli:</b> Araç dosyaları tarayıcında üretir. GitHub'a otomatik yükleme yapmaz. manifest.json genel metadata dosyasıdır; Chrome, Firefox veya CapCut'ın resmî eklenti manifesti değildir.</section>
   </main>
   <footer>© <span id="year"></span> EgePluginBuilder · HTML / CSS / JavaScript</footer>
   <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
